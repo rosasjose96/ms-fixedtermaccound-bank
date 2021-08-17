@@ -26,7 +26,7 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
     private FixedTermAccountRepository repository;
 
     @Autowired
-    private WebClient client;
+    private WebClient.Builder webClientBuilder;
 
     @Override
     public Mono<FixedTermAccound> create(FixedTermAccound fixedTeramAccound) {
@@ -58,7 +58,10 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
         Map<String, Object> params = new HashMap<String,Object>();
         LOGGER.info("initializing client query");
         params.put("customerIdentityNumber",customerIdentityNumber);
-        return client.get()
+        return webClientBuilder
+                .baseUrl("http://CUSTOMER-SERVICE/customer")
+                .build()
+                .get()
                 .uri("/findCustomerCredit/{customerIdentityNumber}",customerIdentityNumber)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchangeToMono(clientResponse -> clientResponse.bodyToMono(CustomerDTO.class))
