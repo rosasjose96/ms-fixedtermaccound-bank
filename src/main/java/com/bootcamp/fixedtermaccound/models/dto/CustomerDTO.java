@@ -3,6 +3,9 @@ package com.bootcamp.fixedtermaccound.models.dto;
 import lombok.*;
 
 
+/**
+ * The type Customer dto.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

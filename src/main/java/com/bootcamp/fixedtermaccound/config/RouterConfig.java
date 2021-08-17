@@ -10,9 +10,18 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
+/**
+ * The type Router config.
+ */
 @Configuration
 public class RouterConfig {
 
+    /**
+     * Routes router function.
+     *
+     * @param fixedTermAccoundHandler the fixed term accound handler
+     * @return the router function
+     */
     @Bean
     public RouterFunction<ServerResponse> routes(FixedTermAccoundHandler fixedTermAccoundHandler){
 

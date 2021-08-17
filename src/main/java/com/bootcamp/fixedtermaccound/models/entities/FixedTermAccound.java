@@ -11,6 +11,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+/**
+ * The type Fixed term accound.
+ */
 @Document(collection = "fixedTermAccound")
 @Getter
 @Setter

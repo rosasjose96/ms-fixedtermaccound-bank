@@ -14,6 +14,9 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+/**
+ * The type Fixed term accound handler.
+ */
 @Slf4j(topic = "fixedTermAccound_handler")
 @Component
 public class FixedTermAccoundHandler {
@@ -23,11 +26,23 @@ public class FixedTermAccoundHandler {
     @Autowired
     private IFixedTermAccoundService service;
 
+    /**
+     * Find all mono.
+     *
+     * @param request the request
+     * @return the mono
+     */
     public Mono<ServerResponse> findAll(ServerRequest request){
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
                 .body(service.findAll(), FixedTermAccound.class);
     }
 
+    /**
+     * New fixed term accound mono.
+     *
+     * @param request the request
+     * @return the mono
+     */
     public Mono<ServerResponse> newFixedTermAccound(ServerRequest request) {
         Mono<FixedTermAccound> fixedTermAccoundMono = request.bodyToMono(FixedTermAccound.class);
 
@@ -56,6 +71,12 @@ public class FixedTermAccoundHandler {
                 ).switchIfEmpty(ServerResponse.badRequest().build());
     }
 
+    /**
+     * Update fixed term accound mono.
+     *
+     * @param request the request
+     * @return the mono
+     */
     public Mono<ServerResponse> updateFixedTermAccound(ServerRequest request) {
         Mono<FixedTermAccound> creditMono = request.bodyToMono(FixedTermAccound.class);
         String id = request.pathVariable("id");
@@ -71,6 +92,12 @@ public class FixedTermAccoundHandler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
+    /**
+     * Delete fixed term accound mono.
+     *
+     * @param request the request
+     * @return the mono
+     */
     public Mono<ServerResponse> deleteFixedTermAccound(ServerRequest request) {
         String id = request.pathVariable("id");
 
@@ -82,12 +109,24 @@ public class FixedTermAccoundHandler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
+    /**
+     * Find by customer identity number mono.
+     *
+     * @param serverRequest the server request
+     * @return the mono
+     */
     public Mono<ServerResponse> findByCustomerIdentityNumber(ServerRequest serverRequest) {
         String customerIdentityNumber =  serverRequest.pathVariable("customerIdentityNumber");
         return  ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
                 .body(service.findByCustomerIdentityNumber(customerIdentityNumber), FixedTermAccound.class);
     }
 
+    /**
+     * Find by account number mono.
+     *
+     * @param request the request
+     * @return the mono
+     */
     public Mono<ServerResponse> findByAccountNumber(ServerRequest request) {
         String accountNumber = request.pathVariable("accountNumber");
         LOGGER.info("El AccountNumber es " + accountNumber);
