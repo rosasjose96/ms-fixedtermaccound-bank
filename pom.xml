@@ -8,10 +8,10 @@
         <version>2.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.bootcamp.msCredit</groupId>
-    <artifactId>ms-Credit-bank</artifactId>
+    <groupId>com.bootcamp.fixedtermaccount</groupId>
+    <artifactId>ms-fixedtermaccount-bank</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ms-Credit-bank</name>
+    <name>ms-fixedtermaccount-bank</name>
     <description>Credit Microservicet</description>
     <properties>
         <java.version>1.8</java.version>
