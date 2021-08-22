@@ -1,5 +1,6 @@
 package com.bootcamp.fixedtermaccound.services;
 
+import com.bootcamp.fixedtermaccound.models.dto.Customer;
 import com.bootcamp.fixedtermaccound.models.dto.CustomerDTO;
 import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccound;
 import reactor.core.publisher.Mono;
@@ -15,7 +16,7 @@ public interface IFixedTermAccoundService extends ICRUDService<FixedTermAccound,
      * @param customerIdentityNumber the customer identity number
      * @return the customer
      */
-    public Mono<CustomerDTO> getCustomer(String customerIdentityNumber);
+    public Mono<Customer> getCustomer(String customerIdentityNumber);
 
     /**
      * Validate customer identity number mono.

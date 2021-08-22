@@ -1,6 +1,7 @@
 package com.bootcamp.fixedtermaccound.handler;
 
 
+import com.bootcamp.fixedtermaccound.models.dto.CustomerDTO;
 import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccound;
 import com.bootcamp.fixedtermaccound.services.IFixedTermAccoundService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,11 +48,13 @@ public class FixedTermAccoundHandler {
         Mono<FixedTermAccound> fixedTermAccoundMono = request.bodyToMono(FixedTermAccound.class);
 
         return fixedTermAccoundMono.flatMap( fixedTermAccound -> service.getCustomer(fixedTermAccound.getCustomerIdentityNumber())
-                .filter(customer -> customer.getCustomerIdentityType().equals("DNI"))
+                .filter(customer -> customer.getCustomerType().getCode().equals("1001")||customer.getCustomerType().getCode().equals("1001"))
                 .flatMap(customerDTO -> {
                     fixedTermAccound.setTypeOfAccount("FIXEDTERM_ACCOUNT");
-                    fixedTermAccound.setCustomer(customerDTO);
-                    fixedTermAccound.setMaxLimitMovementPerMonth(3);
+                    fixedTermAccound.setCustomer(CustomerDTO.builder()
+                            .name(customerDTO.getName()).code(customerDTO.getCustomerType().getCode())
+                            .customerIdentityNumber(customerDTO.getCustomerIdentityNumber()).build());
+                    fixedTermAccound.setMaxLimitMovementPerMonth(fixedTermAccound.getMaxLimitMovementPerMonth());
                     fixedTermAccound.setMovementPerMonth(0);
                     return service.validateCustomerIdentityNumber(fixedTermAccound.getCustomerIdentityNumber())
                             .flatMap(accountFound -> {

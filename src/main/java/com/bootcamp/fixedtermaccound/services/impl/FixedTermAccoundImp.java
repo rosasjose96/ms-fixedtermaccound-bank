@@ -1,5 +1,6 @@
 package com.bootcamp.fixedtermaccound.services.impl;
 
+import com.bootcamp.fixedtermaccound.models.dto.Customer;
 import com.bootcamp.fixedtermaccound.models.dto.CustomerDTO;
 import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccound;
 import com.bootcamp.fixedtermaccound.repositories.FixedTermAccountRepository;
@@ -95,7 +96,7 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
      * @return
      */
     @Override
-    public Mono<CustomerDTO> getCustomer(final String customerIdentityNumber) {
+    public Mono<Customer> getCustomer(final String customerIdentityNumber) {
         Map<String, Object> params = new HashMap<>();
         LOGGER.info("initializing client query");
         params.put("customerIdentityNumber", customerIdentityNumber);
@@ -105,7 +106,7 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
             .get()
             .uri("/findCustomerCredit/{customerIdentityNumber}", customerIdentityNumber)
             .accept(MediaType.APPLICATION_JSON)
-            .exchangeToMono(clientResponse -> clientResponse.bodyToMono(CustomerDTO.class))
+            .exchangeToMono(clientResponse -> clientResponse.bodyToMono(Customer.class))
             .doOnNext(c -> LOGGER.info("Customer Response: Customer={}", c.getName()));
     }
 
