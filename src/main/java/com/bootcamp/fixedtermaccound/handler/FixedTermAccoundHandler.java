@@ -3,6 +3,7 @@ package com.bootcamp.fixedtermaccound.handler;
 
 import com.bootcamp.fixedtermaccound.models.dto.CustomerDTO;
 import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccound;
+import com.bootcamp.fixedtermaccound.services.ICreditService;
 import com.bootcamp.fixedtermaccound.services.IFixedTermAccoundService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -27,6 +28,8 @@ public class FixedTermAccoundHandler {
     @Autowired
     private IFixedTermAccoundService service;
 
+    @Autowired
+    private ICreditService creditService;
     /**
      * Find all mono.
      *
@@ -48,7 +51,7 @@ public class FixedTermAccoundHandler {
         Mono<FixedTermAccound> fixedTermAccoundMono = request.bodyToMono(FixedTermAccound.class);
 
         return fixedTermAccoundMono.flatMap( fixedTermAccound -> service.getCustomer(fixedTermAccound.getCustomerIdentityNumber())
-                .filter(customer -> customer.getCustomerType().getCode().equals("1001")||customer.getCustomerType().getCode().equals("1001"))
+                .filter(customer -> customer.getCustomerType().getCode().equals("1001")||customer.getCustomerType().getCode().equals("1002"))
                 .flatMap(customerDTO -> {
                     fixedTermAccound.setTypeOfAccount("FIXEDTERM_ACCOUNT");
                     fixedTermAccound.setCustomer(CustomerDTO.builder()
@@ -56,7 +59,12 @@ public class FixedTermAccoundHandler {
                             .customerIdentityNumber(customerDTO.getCustomerIdentityNumber()).build());
                     fixedTermAccound.setMaxLimitMovementPerMonth(fixedTermAccound.getMaxLimitMovementPerMonth());
                     fixedTermAccound.setMovementPerMonth(0);
-                    return service.validateCustomerIdentityNumber(fixedTermAccound.getCustomerIdentityNumber())
+                    return creditService.validateDebtorCredit(fixedTermAccound.getCustomerIdentityNumber())
+                            .flatMap(debtor -> {
+                                if(debtor == true) {
+                                    return Mono.empty();
+                                }else return service.validateCustomerIdentityNumber(fixedTermAccound.getCustomerIdentityNumber());
+                            })
                             .flatMap(accountFound -> {
                                 if(accountFound.getCustomerIdentityNumber() != null){
                                     LOGGER.info("La cuenta encontrada es: " + accountFound.getCustomerIdentityNumber());
