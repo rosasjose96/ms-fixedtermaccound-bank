@@ -2,7 +2,7 @@ package com.bootcamp.fixedtermaccound.handler;
 
 
 import com.bootcamp.fixedtermaccound.models.dto.CustomerDTO;
-import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccound;
+import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccount;
 import com.bootcamp.fixedtermaccound.services.ICreditService;
 import com.bootcamp.fixedtermaccound.services.IFixedTermAccoundService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +21,9 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j(topic = "fixedTermAccound_handler")
 @Component
-public class FixedTermAccoundHandler {
+public class FixedTermAccountHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FixedTermAccoundHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FixedTermAccountHandler.class);
 
     @Autowired
     private IFixedTermAccoundService service;
@@ -38,7 +38,7 @@ public class FixedTermAccoundHandler {
      */
     public Mono<ServerResponse> findAll(ServerRequest request){
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
-                .body(service.findAll(), FixedTermAccound.class);
+                .body(service.findAll(), FixedTermAccount.class);
     }
 
     /**
@@ -47,23 +47,23 @@ public class FixedTermAccoundHandler {
      * @param request the request
      * @return the mono
      */
-    public Mono<ServerResponse> newFixedTermAccound(ServerRequest request) {
-        Mono<FixedTermAccound> fixedTermAccoundMono = request.bodyToMono(FixedTermAccound.class);
+    public Mono<ServerResponse> newFixedTermAccount(ServerRequest request) {
+        Mono<FixedTermAccount> fixedTermAccoundMono = request.bodyToMono(FixedTermAccount.class);
 
-        return fixedTermAccoundMono.flatMap( fixedTermAccound -> service.getCustomer(fixedTermAccound.getCustomerIdentityNumber())
+        return fixedTermAccoundMono.flatMap(fixedTermAccount -> service.getCustomer(fixedTermAccount.getCustomerIdentityNumber())
                 .filter(customer -> customer.getCustomerType().getCode().equals("1001")||customer.getCustomerType().getCode().equals("1002"))
                 .flatMap(customerDTO -> {
-                    fixedTermAccound.setTypeOfAccount("FIXEDTERM_ACCOUNT");
-                    fixedTermAccound.setCustomer(CustomerDTO.builder()
+                    fixedTermAccount.setTypeOfAccount("FIXEDTERM_ACCOUNT");
+                    fixedTermAccount.setCustomer(CustomerDTO.builder()
                             .name(customerDTO.getName()).code(customerDTO.getCustomerType().getCode())
                             .customerIdentityNumber(customerDTO.getCustomerIdentityNumber()).build());
-                    fixedTermAccound.setMaxLimitMovementPerMonth(fixedTermAccound.getMaxLimitMovementPerMonth());
-                    fixedTermAccound.setMovementPerMonth(0);
-                    return creditService.validateDebtorCredit(fixedTermAccound.getCustomerIdentityNumber())
+                    fixedTermAccount.setMaxLimitMovementPerMonth(fixedTermAccount.getMaxLimitMovementPerMonth());
+                    fixedTermAccount.setMovementPerMonth(0);
+                    return creditService.validateDebtorCredit(fixedTermAccount.getCustomerIdentityNumber())
                             .flatMap(debtor -> {
                                 if(debtor == true) {
                                     return Mono.empty();
-                                }else return service.validateCustomerIdentityNumber(fixedTermAccound.getCustomerIdentityNumber());
+                                }else return service.validateCustomerIdentityNumber(fixedTermAccount.getCustomerIdentityNumber());
                             })
                             .flatMap(accountFound -> {
                                 if(accountFound.getCustomerIdentityNumber() != null){
@@ -71,7 +71,7 @@ public class FixedTermAccoundHandler {
                                     return Mono.empty();
                                 }else {
                                     LOGGER.info("No se encontró la cuenta ");
-                                    return service.create(fixedTermAccound);
+                                    return service.create(fixedTermAccount);
                                 }
                             });
                 }))
@@ -89,7 +89,7 @@ public class FixedTermAccoundHandler {
      * @return the mono
      */
     public Mono<ServerResponse> updateFixedTermAccound(ServerRequest request) {
-        Mono<FixedTermAccound> creditMono = request.bodyToMono(FixedTermAccound.class);
+        Mono<FixedTermAccount> creditMono = request.bodyToMono(FixedTermAccount.class);
         String id = request.pathVariable("id");
 
         return service.findById(id).zipWith(creditMono, (db,req) -> {
@@ -99,7 +99,7 @@ public class FixedTermAccoundHandler {
         }).flatMap( c -> ServerResponse
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(service.update(c),FixedTermAccound.class))
+                .body(service.update(c), FixedTermAccount.class))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
@@ -112,7 +112,7 @@ public class FixedTermAccoundHandler {
     public Mono<ServerResponse> deleteFixedTermAccound(ServerRequest request) {
         String id = request.pathVariable("id");
 
-        Mono<FixedTermAccound> creditMono = service.findById(id);
+        Mono<FixedTermAccount> creditMono = service.findById(id);
 
         return creditMono
                 .doOnNext(c -> LOGGER.info("deleteConsumption: consumptionId={}", c.getId()))
@@ -129,7 +129,7 @@ public class FixedTermAccoundHandler {
     public Mono<ServerResponse> findByCustomerIdentityNumber(ServerRequest serverRequest) {
         String customerIdentityNumber =  serverRequest.pathVariable("customerIdentityNumber");
         return  ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
-                .body(service.findByCustomerIdentityNumber(customerIdentityNumber), FixedTermAccound.class);
+                .body(service.findByCustomerIdentityNumber(customerIdentityNumber), FixedTermAccount.class);
     }
 
     /**

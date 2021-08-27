@@ -1,6 +1,6 @@
 spring:
   application:
-    name: fixedTermAccound-service
+    name: fixedTermAccount-service
   profiles:
     active: dev                   #docker -> docker | dev -> dev
   cloud:

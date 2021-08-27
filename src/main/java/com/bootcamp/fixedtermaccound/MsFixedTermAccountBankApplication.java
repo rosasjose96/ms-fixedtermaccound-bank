@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * The type Ms fixed term accound bank application.
  */
 @SpringBootApplication
-public class MsFixedTermAccoundBankApplication {
+public class MsFixedTermAccountBankApplication {
 
     /**
      * The entry point of application.
@@ -15,7 +15,7 @@ public class MsFixedTermAccoundBankApplication {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        SpringApplication.run(MsFixedTermAccoundBankApplication.class, args);
+        SpringApplication.run(MsFixedTermAccountBankApplication.class, args);
     }
 
 }

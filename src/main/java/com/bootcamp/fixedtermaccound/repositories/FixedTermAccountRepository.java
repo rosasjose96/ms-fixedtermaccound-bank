@@ -1,13 +1,13 @@
 package com.bootcamp.fixedtermaccound.repositories;
 
-import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccound;
+import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccount;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Mono;
 
 /**
  * The interface Fixed term account repository.
  */
-public interface FixedTermAccountRepository extends ReactiveMongoRepository<FixedTermAccound,String> {
+public interface FixedTermAccountRepository extends ReactiveMongoRepository<FixedTermAccount,String> {
 
     /**
      * Find by customer identity number mono.
@@ -15,7 +15,7 @@ public interface FixedTermAccountRepository extends ReactiveMongoRepository<Fixe
      * @param customerIdentityNumber the customer identity number
      * @return the mono
      */
-    public Mono<FixedTermAccound> findByCustomerIdentityNumber(String customerIdentityNumber);
+    public Mono<FixedTermAccount> findByCustomerIdentityNumber(String customerIdentityNumber);
 
     /**
      * Find by account number mono.
@@ -23,6 +23,6 @@ public interface FixedTermAccountRepository extends ReactiveMongoRepository<Fixe
      * @param accountNumber the account number
      * @return the mono
      */
-    public Mono<FixedTermAccound> findByAccountNumber(String accountNumber);
+    public Mono<FixedTermAccount> findByAccountNumber(String accountNumber);
 
 }

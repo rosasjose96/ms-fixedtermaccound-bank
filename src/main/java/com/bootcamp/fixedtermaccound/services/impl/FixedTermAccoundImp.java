@@ -1,8 +1,7 @@
 package com.bootcamp.fixedtermaccound.services.impl;
 
 import com.bootcamp.fixedtermaccound.models.dto.Customer;
-import com.bootcamp.fixedtermaccound.models.dto.CustomerDTO;
-import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccound;
+import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccount;
 import com.bootcamp.fixedtermaccound.repositories.FixedTermAccountRepository;
 import com.bootcamp.fixedtermaccound.services.IFixedTermAccoundService;
 import org.slf4j.Logger;
@@ -48,7 +47,7 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
      * @return
      */
     @Override
-    public Mono<FixedTermAccound> create(final FixedTermAccound fixedTeramAccound) {
+    public Mono<FixedTermAccount> create(final FixedTermAccount fixedTeramAccound) {
         return repository.save(fixedTeramAccound);
     }
 
@@ -56,7 +55,7 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
      * @return
      */
     @Override
-    public Flux<FixedTermAccound> findAll() {
+    public Flux<FixedTermAccount> findAll() {
         return repository.findAll();
     }
 
@@ -66,28 +65,28 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
      * @return
      */
     @Override
-    public Mono<FixedTermAccound> findById(final String id) {
+    public Mono<FixedTermAccount> findById(final String id) {
         return repository.findById(id);
     }
 
     /**
      * sobrescribir metodo update para actualizar.
-     * @param fixedTermAccound
+     * @param fixedTermAccount
      * @return
      */
     @Override
-    public Mono<FixedTermAccound> update(final FixedTermAccound fixedTermAccound) {
-        return repository.save(fixedTermAccound);
+    public Mono<FixedTermAccount> update(final FixedTermAccount fixedTermAccount) {
+        return repository.save(fixedTermAccount);
     }
 
     /**
      * sobrescribir metodo delete para eliminar.
-     * @param fixedTermAccound
+     * @param fixedTermAccount
      * @return
      */
     @Override
-    public Mono<Void> delete(final FixedTermAccound fixedTermAccound) {
-        return repository.delete(fixedTermAccound);
+    public Mono<Void> delete(final FixedTermAccount fixedTermAccount) {
+        return repository.delete(fixedTermAccount);
     }
 
     /**
@@ -117,9 +116,9 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
      * @return
      */
     @Override
-    public Mono<FixedTermAccound> validateCustomerIdentityNumber(final String customerIdentityNumber) {
+    public Mono<FixedTermAccount> validateCustomerIdentityNumber(final String customerIdentityNumber) {
         return repository.findByCustomerIdentityNumber(customerIdentityNumber)
-                .switchIfEmpty(Mono.just(FixedTermAccound.builder()
+                .switchIfEmpty(Mono.just(FixedTermAccount.builder()
                         .customerIdentityNumber(null).build()));
     }
 
@@ -130,7 +129,7 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
      * @return
      */
     @Override
-    public Mono<FixedTermAccound> findByCustomerIdentityNumber(final String customerIdentityNumber) {
+    public Mono<FixedTermAccount> findByCustomerIdentityNumber(final String customerIdentityNumber) {
         return repository.findByCustomerIdentityNumber(customerIdentityNumber);
     }
 
@@ -141,7 +140,7 @@ public class FixedTermAccoundImp implements IFixedTermAccoundService {
      * @return
      */
     @Override
-    public Mono<FixedTermAccound> findByAccountNumber(final String accountNumber) {
+    public Mono<FixedTermAccount> findByAccountNumber(final String accountNumber) {
         LOGGER.info("El AccountNumber es" + accountNumber);
         return repository.findByAccountNumber(accountNumber);
     }

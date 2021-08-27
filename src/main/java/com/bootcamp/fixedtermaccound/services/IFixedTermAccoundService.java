@@ -1,14 +1,13 @@
 package com.bootcamp.fixedtermaccound.services;
 
 import com.bootcamp.fixedtermaccound.models.dto.Customer;
-import com.bootcamp.fixedtermaccound.models.dto.CustomerDTO;
-import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccound;
+import com.bootcamp.fixedtermaccound.models.entities.FixedTermAccount;
 import reactor.core.publisher.Mono;
 
 /**
  * The interface Fixed term accound service.
  */
-public interface IFixedTermAccoundService extends ICRUDService<FixedTermAccound,String> {
+public interface IFixedTermAccoundService extends ICRUDService<FixedTermAccount,String> {
 
     /**
      * Gets customer.
@@ -24,7 +23,7 @@ public interface IFixedTermAccoundService extends ICRUDService<FixedTermAccound,
      * @param customerIdentityNumber the customer identity number
      * @return the mono
      */
-    public Mono<FixedTermAccound> validateCustomerIdentityNumber(String customerIdentityNumber);
+    public Mono<FixedTermAccount> validateCustomerIdentityNumber(String customerIdentityNumber);
 
     /**
      * Find by customer identity number mono.
@@ -32,7 +31,7 @@ public interface IFixedTermAccoundService extends ICRUDService<FixedTermAccound,
      * @param customerIdentityNumber the customer identity number
      * @return the mono
      */
-    public Mono<FixedTermAccound> findByCustomerIdentityNumber(String customerIdentityNumber);
+    public Mono<FixedTermAccount> findByCustomerIdentityNumber(String customerIdentityNumber);
 
     /**
      * Find by account number mono.
@@ -40,6 +39,6 @@ public interface IFixedTermAccoundService extends ICRUDService<FixedTermAccound,
      * @param accountNumber the account number
      * @return the mono
      */
-    public Mono<FixedTermAccound> findByAccountNumber(String accountNumber);
+    public Mono<FixedTermAccount> findByAccountNumber(String accountNumber);
 
 }

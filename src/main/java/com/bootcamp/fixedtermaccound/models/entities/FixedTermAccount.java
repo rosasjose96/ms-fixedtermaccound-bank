@@ -22,7 +22,7 @@ import java.util.Date;
 @Builder
 @Data
 @ToString
-public class FixedTermAccound {
+public class FixedTermAccount {
 
     @Id
     private String id;

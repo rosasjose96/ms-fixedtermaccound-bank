@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.bootcamp.fixedtermaccound</groupId>
-    <artifactId>ms-fixedtermaccound-bank</artifactId>
+    <artifactId>ms-fixedtermaccount-bank</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ms-fixedtermaccound-bank</name>
-    <description>fixed term accound microservice</description>
+    <name>ms-fixedtermaccount-bank</name>
+    <description>fixed term account microservice</description>
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
