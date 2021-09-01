@@ -89,10 +89,10 @@ public class FixedTermAccountHandler {
      * @return the mono
      */
     public Mono<ServerResponse> updateFixedTermAccound(ServerRequest request) {
-        Mono<FixedTermAccount> creditMono = request.bodyToMono(FixedTermAccount.class);
+        Mono<FixedTermAccount> fixedTermAccountMono = request.bodyToMono(FixedTermAccount.class);
         String id = request.pathVariable("id");
 
-        return service.findById(id).zipWith(creditMono, (db,req) -> {
+        return service.findById(id).zipWith(fixedTermAccountMono, (db,req) -> {
             db.setAmount(req.getAmount());
             db.setMovementPerMonth(req.getMovementPerMonth());
             return db;
